@@ -1,204 +1,47 @@
-import { Booking, Client, Recommendation, AnalyticsData, QuickImpactImprovement } from '../types';
+// Fix: Populating file with mock data for the application.
+import { Client, Service, Booking, Promotion, Notification, AnalyticsData, Recommendation } from '../types';
 
 export const mockClients: Client[] = [
-  {
-    id: 'cli-1',
-    name: 'The Millers',
-    email: 'millers@example.com',
-    phone: '555-0101',
-    joinDate: '2023-05-12',
-    totalBookings: 2,
-    tags: ['Family', 'Repeat Customer'],
-    avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-  },
-  {
-    id: 'cli-2',
-    name: 'Sophia Chen',
-    email: 'sophia.c@example.com',
-    phone: '555-0102',
-    joinDate: '2023-08-20',
-    totalBookings: 1,
-    tags: ['Solo Traveler', 'Adventure'],
-    avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026705d',
-  },
-  {
-    id: 'cli-3',
-    name: 'David & Emily',
-    email: 'd.and.e@example.com',
-    phone: '555-0103',
-    joinDate: '2024-01-05',
-    totalBookings: 1,
-    tags: ['Couple', 'Honeymoon'],
-    avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026706d',
-  },
-    {
-    id: 'cli-4',
-    name: 'Carlos Garcia',
-    email: 'carlos.g@example.com',
-    phone: '555-0104',
-    joinDate: '2024-02-18',
-    totalBookings: 3,
-    tags: ['VIP', 'Cultural'],
-    avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026707d',
-  },
+  { id: '1', name: 'Elena Rodriguez', email: 'elena@example.com', phone: '555-0101', lastVisit: '2023-10-15', preferences: ['Manicure', 'Bright Colors'] },
+  { id: '2', name: 'Liam Chen', email: 'liam@example.com', phone: '555-0102', lastVisit: '2023-10-20', preferences: ['Pedicure', 'Massage'] },
+  { id: '3', name: 'Aisha Khan', email: 'aisha@example.com', phone: '555-0103', lastVisit: '2023-09-05', preferences: ['Facial', 'Organic Products'] },
+];
+
+export const mockServices: Service[] = [
+  { id: 's1', name: 'Classic Manicure', description: 'Shape, buff, and polish.', duration: 45, price: 25 },
+  { id: 's2', name: 'Gel Pedicure', description: 'Long-lasting gel polish pedicure.', duration: 60, price: 45 },
+  { id: 's3', name: 'Relaxing Facial', description: 'Deep cleansing and relaxing facial.', duration: 75, price: 80 },
+  { id: 's4', name: 'Swedish Massage', description: 'Full body massage for relaxation.', duration: 60, price: 70 },
 ];
 
 export const mockBookings: Booking[] = [
-  {
-    id: 'book-1',
-    clientName: 'The Millers',
-    clientId: 'cli-1',
-    tourPackage: 'Cenote Adventure',
-    date: '2024-07-15',
-    status: 'confirmed',
-    participants: 4,
-    totalPrice: 600,
-  },
-  {
-    id: 'book-2',
-    clientName: 'Sophia Chen',
-    clientId: 'cli-2',
-    tourPackage: 'Jungle Zip-lining',
-    date: '2024-07-20',
-    status: 'confirmed',
-    participants: 1,
-    totalPrice: 150,
-  },
-  {
-    id: 'book-3',
-    clientName: 'David & Emily',
-    clientId: 'cli-3',
-    tourPackage: 'Mayan Ruins & Sunset Dinner',
-    date: '2024-08-01',
-    status: 'pending',
-    participants: 2,
-    totalPrice: 450,
-  },
-  {
-    id: 'book-4',
-    clientName: 'Carlos Garcia',
-    clientId: 'cli-4',
-    tourPackage: 'Private Chichen Itza Tour',
-    date: '2024-06-25',
-    status: 'confirmed',
-    participants: 2,
-    totalPrice: 800,
-  },
-  {
-    id: 'book-5',
-    clientName: 'The Millers',
-    clientId: 'cli-1',
-    tourPackage: 'Local Gastronomy Tour',
-    date: '2023-12-22',
-    status: 'cancelled',
-    participants: 4,
-    totalPrice: 400,
-  },
+  { id: 'b1', clientId: '1', clientName: 'Elena Rodriguez', serviceId: 's1', serviceName: 'Classic Manicure', startTime: new Date(new Date().setDate(new Date().getDate() + 1)), endTime: new Date(new Date().setDate(new Date().getDate() + 1)), status: 'confirmed' },
+  { id: 'b2', clientId: '2', clientName: 'Liam Chen', serviceId: 's4', serviceName: 'Swedish Massage', startTime: new Date(new Date().setDate(new Date().getDate() + 2)), endTime: new Date(new Date().setDate(new Date().getDate() + 2)), status: 'pending' },
+  { id: 'b3', clientId: '3', clientName: 'Aisha Khan', serviceId: 's3', serviceName: 'Relaxing Facial', startTime: new Date(new Date().setDate(new Date().getDate() + 3)), endTime: new Date(new Date().setDate(new Date().getDate() + 3)), status: 'completed' },
+];
+
+export const mockPromotions: Promotion[] = [
+    { id: 'p1', title: 'Autumn Special', description: '20% off all facials.', discount: '20%', validUntil: '2023-11-30' },
+    { id: 'p2', title: 'Refer a Friend', description: 'Get $10 off when you refer a friend.', discount: '$10', validUntil: '2023-12-31' },
 ];
 
 export const mockRecommendations: Recommendation[] = [
-  {
-    id: 'rec-1',
-    title: 'Cavernas Subacuáticas y Nado con Tortugas',
-    description: 'Conecta tres reinos—terrestre, acuático y espiritual—en una inmersión que transforma tu visión del cosmos. Explora cenotes sagrados, realiza espeleología y nada con tortugas en Akumal.',
-    category: 'Adventure',
-    targetAudience: 'Spiritual Seekers, Couples',
-    suggestedPrice: 180,
-    image: 'https://images.unsplash.com/photo-1575882332392-18a4b415237b?q=80&w=1974&auto=format&fit=crop',
-  },
-  {
-    id: 'rec-2',
-    title: 'Nado con el Tiburón Ballena',
-    description: 'Regresa al origen del mar y nada junto al gigante sagrado de Holbox, acompañado de guardianes mayas. Una jornada espiritual que humilla y eleva el alma.',
-    category: 'Eco-tourism',
-    targetAudience: 'Nature Lovers, Adventure Seekers',
-    suggestedPrice: 220,
-    image: 'https://images.unsplash.com/photo-1594914561081-394e3f17540f?q=80&w=2070&auto=format&fit=crop',
-  },
-  {
-    id: 'rec-3',
-    title: 'Holbox Cabo Catoche',
-    description: 'Vive la danza eterna del Golfo y el Caribe: pesca con técnicas ancestrales, snorkel en el arrecife, saborea ceviche fresco y explora el faro de Cabo Catoche.',
-    category: 'Adventure',
-    targetAudience: 'Families, Small Groups',
-    suggestedPrice: 160,
-    image: 'https://images.unsplash.com/photo-1621612423315-a86a01499573?q=80&w=2070&auto=format&fit=crop',
-  },
-  {
-    id: 'rec-4',
-    title: 'Holbox Full & 4 Islas',
-    description: 'Sumérgete en paraísos vírgenes: nado en el cenote Yalahau, desconecta en Isla Pasión, observa aves en Isla Pájaros y explora la remota Punta Mosquito.',
-    category: 'Eco-tourism',
-    targetAudience: 'Couples, Families',
-    suggestedPrice: 150,
-    image: 'https://images.unsplash.com/photo-1601449433199-56616a695e13?q=80&w=1935&auto=format&fit=crop',
-  },
-  {
-    id: 'rec-5',
-    title: 'Chichén Itzá (La Auténtica Magia Maya)',
-    description: 'Embárcate en un viaje exclusivo: explora Chichén Itzá con un guía experto, refréscate en el místico Cenote Xux-Ha y saborea un festín con una familia maya.',
-    category: 'Cultural',
-    targetAudience: 'History Buffs, Families',
-    suggestedPrice: 190,
-    image: 'https://images.unsplash.com/photo-1517524206127-48bbd363f5d4?q=80&w=1974&auto=format&fit=crop',
-  },
+    {id: 'r1', title: 'Upsell to Aisha Khan', description: 'Aisha loves organic products. Recommend our new organic serum during her next facial.', category: 'Client'},
+    {id: 'r2', title: 'Weekend Promotion Idea', description: 'Create a "Weekend Relaxation" package combining a massage and a pedicure at a discounted rate.', category: 'Marketing'},
 ];
 
-export const mockQuickImpactImprovements: QuickImpactImprovement[] = [
-  {
-    experience: 'Cavernas Subacuáticas',
-    correctedPrice: '$2,200 MXN',
-    keyImages: '1000607861.jpg, 1000606060.jpg',
-    visualImprovement: 'Galería auténtica + overlay',
-  },
-  {
-    experience: 'Senderismo en Selva Maya',
-    correctedPrice: '$1,500 MXN',
-    keyImages: 'jungle_trek_01.jpg, waterfall_cenote.jpg',
-    visualImprovement: 'Video hero con drone',
-  },
-  {
-    experience: 'Ceremonia de Cacao Ancestral',
-    correctedPrice: '$1,800 MXN',
-    keyImages: 'cacao_ceremony.jpg, shaman_portrait.jpg',
-    visualImprovement: 'Fotografía de ambiente con poca luz',
-  },
-  {
-    experience: 'Recorrido Gastronómico Local',
-    correctedPrice: '$1,950 MXN',
-    keyImages: 'local_market.jpg, cochinita_pibil.jpg',
-    visualImprovement: 'Fotos de platillos en alta resolución',
-  },
+export const mockNotifications: Notification[] = [
+    { id: 'n1', message: 'New booking from Elena Rodriguez.', type: 'info', timestamp: '2 hours ago' },
+    { id: 'n2', message: 'Low stock on organic facial cream.', type: 'warning', timestamp: '1 day ago' },
 ];
 
 export const mockAnalyticsData: AnalyticsData = {
-  bookingsOverTime: [
-    { month: 'Jan', bookings: 20 },
-    { month: 'Feb', bookings: 25 },
-    { month: 'Mar', bookings: 35 },
-    { month: 'Apr', bookings: 30 },
-    { month: 'May', bookings: 40 },
-    { month: 'Jun', bookings: 45 },
-  ],
-  revenueByPackage: [
-    { package: 'Cenote Adventure', revenue: 15000 },
-    { package: 'Jungle Zip-lining', revenue: 9000 },
-    { package: 'Mayan Ruins & Sunset Dinner', revenue: 22000 },
-    { package: 'Private Chichen Itza Tour', revenue: 32000 },
-  ],
-  clientGrowth: [
-    { month: 'Jan', newClients: 5 },
-    { month: 'Feb', newClients: 8 },
-    { month: 'Mar', newClients: 12 },
-    { month: 'Apr', newClients: 10 },
-    { month: 'May', newClients: 15 },
-    { month: 'Jun', newClients: 18 },
-  ],
-  popularPackages: [
-      { name: 'Private Chichen Itza Tour', bookings: 40 },
-      { name: 'Mayan Ruins & Sunset Dinner', bookings: 50 },
-      { name: 'Cenote Adventure', bookings: 100 },
-      { name: 'Jungle Zip-lining', bookings: 60 },
-  ],
-  quickImpactImprovements: mockQuickImpactImprovements,
+    totalRevenue: 12540,
+    totalBookings: 180,
+    newClients: 25,
+    topServices: [
+        { name: 'Gel Pedicure', bookings: 60 },
+        { name: 'Swedish Massage', bookings: 45 },
+        { name: 'Classic Manicure', bookings: 35 },
+    ],
 };

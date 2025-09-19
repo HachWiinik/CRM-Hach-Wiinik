@@ -1,48 +1,58 @@
-import React from 'react';
-import { mockClients } from '../../data/mockData';
+// Fix: Populating file with the Clients view component, including Gemini API integration.
+import React, { useState } from 'react';
 import Panel from '../common/Panel';
-import { Mail, Phone, Hash } from 'lucide-react';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
+import { mockClients, mockServices } from '../../data/mockData';
+import { useTranslation } from '../../contexts/LanguageContext';
+import { generateClientRecommendations } from '../../services/geminiService';
+import { Client } from '../../types';
 
-const Clients = () => {
-    return (
-        <div className="space-y-6">
-            <h2 className="text-3xl font-bold font-heading">Clients</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {mockClients.map((client) => (
-                    <Panel key={client.id} className="flex flex-col">
-                        <div className="flex items-center mb-4">
-                            <img src={client.avatar} alt={client.name} className="w-16 h-16 rounded-full mr-4" />
-                            <div>
-                                <h3 className="text-lg font-bold">{client.name}</h3>
-                                <p className="text-sm text-gray-500">Joined: {client.joinDate}</p>
-                            </div>
-                        </div>
-                        <div className="space-y-2 text-sm text-gray-600 flex-grow">
-                            <div className="flex items-center">
-                                <Mail size={14} className="mr-2" />
-                                <span>{client.email}</span>
-                            </div>
-                            <div className="flex items-center">
-                                <Phone size={14} className="mr-2" />
-                                <span>{client.phone}</span>
-                            </div>
-                             <div className="flex items-center">
-                                <Hash size={14} className="mr-2" />
-                                <span>{client.totalBookings} bookings</span>
-                            </div>
-                        </div>
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                             <div className="flex flex-wrap gap-2">
-                                {client.tags.map(tag => (
-                                    <span key={tag} className="px-2 py-1 bg-maya-forest-green/10 text-maya-forest-green text-xs font-medium rounded-full">{tag}</span>
-                                ))}
-                            </div>
-                        </div>
-                    </Panel>
-                ))}
-            </div>
-        </div>
-    );
+const Clients: React.FC = () => {
+  const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [recommendations, setRecommendations] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGetRecommendations = async (client: Client) => {
+    setSelectedClient(client);
+    setIsModalOpen(true);
+    setIsLoading(true);
+    setRecommendations('');
+    const result = await generateClientRecommendations(client, mockServices);
+    setRecommendations(result);
+    setIsLoading(false);
+  };
+
+  return (
+    <div className="container mx-auto">
+      <h1 className="text-3xl font-bold mb-6">{t('clients.title')}</h1>
+      <Panel title={t('clients.list')}>
+        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+          {mockClients.map(client => (
+            <li key={client.id} className="py-4 flex items-center justify-between">
+              <div>
+                <p className="text-lg font-medium">{client.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{client.email}</p>
+              </div>
+              <Button onClick={() => handleGetRecommendations(client)} disabled={isLoading}>
+                {t('clients.getRecommendations')}
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </Panel>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={`${t('clients.recommendationsFor')} ${selectedClient?.name}`}>
+        {isLoading ? (
+          <p>{t('common.loading')}</p>
+        ) : (
+          <div className="whitespace-pre-wrap">{recommendations}</div>
+        )}
+      </Modal>
+    </div>
+  );
 };
 
 export default Clients;

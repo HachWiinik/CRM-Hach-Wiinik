@@ -1,0 +1,72 @@
+
+{
+  "header": {
+    "title": "Panel de CRM",
+    "language": "Idioma",
+    "toggleTheme": "Cambiar Tema",
+    "role": "Rol de Usuario"
+  },
+  "sidebar": {
+    "bookings": "Reservas",
+    "clients": "Clientes",
+    "catalog": "Catálogo",
+    "promotions": "Promociones",
+    "recommendations": "Recomendaciones IA",
+    "analytics": "Analíticas",
+    "notifications": "Notificaciones"
+  },
+  "roles": {
+    "superAdmin": "Super Administrador",
+    "admin": "Administrador"
+  },
+  "bookings": {
+    "title": "Reservas",
+    "upcoming": "Próximas Reservas",
+    "table": {
+      "client": "Cliente",
+      "service": "Servicio",
+      "time": "Hora",
+      "status": "Estado"
+    }
+  },
+  "clients": {
+    "title": "Clientes",
+    "list": "Lista de Clientes",
+    "getRecommendations": "Obtener Recomendaciones",
+    "recommendationsFor": "Recomendaciones para"
+  },
+  "catalog": {
+    "title": "Catálogo de Servicios",
+    "duration": "{minutes} min"
+  },
+  "promotions": {
+    "title": "Promociones",
+    "active": "Promociones Activas",
+    "validUntil": "Válido hasta el {date}",
+    "generateNew": "Generar Nuevas Ideas",
+    "generateDescription": "¡Deja que la IA genere ideas de promociones creativas para la próxima temporada!",
+    "generateButton": "Generar Ideas",
+    "newIdeas": "Aquí tienes algunas ideas:"
+  },
+  "recommendations": {
+    "title": "Recomendaciones por IA",
+    "subtitle": "Aquí hay algunas sugerencias generadas por IA para ayudar a mejorar tu negocio."
+  },
+  "analytics": {
+    "title": "Analíticas del Negocio",
+    "revenue": "Ingresos Totales",
+    "bookings": "Reservas",
+    "newClients": "Nuevos Clientes",
+    "topServices": "Servicios más Populares"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "recent": "Actividad Reciente"
+  },
+  "mascot": {
+    "promotions": "¿Sin ideas? ¡Deja que nuestro asistente de IA genere campañas promocionales frescas y emocionantes para ti!"
+  },
+  "common": {
+    "loading": "Cargando..."
+  }
+}

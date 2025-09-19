@@ -1,116 +1,87 @@
-import { GoogleGenAI, Type } from "@google/genai";
-import { Recommendation, Booking } from '../types';
-import { mockBookings } from '../data/mockData';
+// Fix: Populating file with Gemini API service functions, adhering to provided coding guidelines.
+import { GoogleGenAI, GenerateContentResponse, Type } from "@google/genai";
+import { Client, Service } from '../types';
 
-// Fix: Initialize the GoogleGenAI client with the API key from environment variables.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+// Per guidelines, initialize with a named apiKey parameter from process.env.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-const recommendationSchema = {
-    type: Type.ARRAY,
-    items: {
-      type: Type.OBJECT,
-      properties: {
-        id: {
-            type: Type.STRING,
-            description: 'A unique identifier for the recommendation, can be a short slug-like string.'
-        },
-        title: {
-          type: Type.STRING,
-          description: 'The name of the new tour package.',
-        },
-        description: {
-          type: Type.STRING,
-          description: 'A brief, engaging description of the tour package.',
-        },
-        category: {
-          type: Type.STRING,
-          description: "Category of the tour. Must be one of: 'Eco-tourism', 'Adventure', 'Cultural', 'Gastronomy'.",
-        },
-        targetAudience: {
-            type: Type.STRING,
-            description: 'The ideal customer for this package (e.g., Families, Couples, Solo Travelers).'
-        },
-        suggestedPrice: {
-            type: Type.NUMBER,
-            description: 'A suggested price for the tour package per person.'
-        }
-      },
-      required: ["id", "title", "description", "category", "targetAudience", "suggestedPrice"]
-    },
+/**
+ * Generates personalized marketing recommendations for a specific client.
+ */
+export const generateClientRecommendations = async (client: Client, services: Service[]): Promise<string> => {
+  const prompt = `
+    Based on the following client profile and our list of services, generate 2-3 personalized recommendations for them.
+    The recommendations should be actionable and aim to enhance their experience or introduce them to new services they might like.
+
+    Client Profile:
+    - Name: ${client.name}
+    - Last Visit: ${client.lastVisit}
+    - Preferences/History: ${client.preferences.join(', ')}
+
+    Our Services:
+    ${services.map(s => `- ${s.name}: ${s.description}`).join('\n')}
+
+    Generate a short, friendly message with the recommendations.
+  `;
+
+  try {
+    // Use ai.models.generateContent with the correct model.
+    const response: GenerateContentResponse = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+    });
+    
+    // Access text directly from response.text.
+    return response.text;
+  } catch (error) {
+    console.error("Error generating client recommendations:", error);
+    return "Sorry, we couldn't generate recommendations at this time.";
+  }
 };
 
 
-export const generateRecommendations = async (clientProfile: string): Promise<Recommendation[]> => {
+/**
+ * Generates ideas for new promotional campaigns.
+ */
+export const generatePromotionIdeas = async (season: string): Promise<{title: string, description: string}[]> => {
+    const prompt = `
+        Generate 3 creative and appealing promotion ideas for a modern beauty and wellness salon for the upcoming ${season} season.
+        For each idea, provide a catchy title and a brief description.
+    `;
+
     try {
-        // Fix: Use the correct model 'gemini-2.5-flash' and structure for generateContent call.
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: `Based on the following client profile, generate 3 new, creative, and appealing tour package ideas suitable for the Mayan region of Mexico. Client Profile: "${clientProfile}"`,
+            model: 'gemini-2.5-flash',
+            contents: prompt,
             config: {
                 responseMimeType: "application/json",
-                responseSchema: recommendationSchema,
-                temperature: 0.8,
-            },
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        promotions: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    title: { type: Type.STRING },
+                                    description: { type: Type.STRING }
+                                },
+                                required: ["title", "description"]
+                            }
+                        }
+                    },
+                    required: ["promotions"]
+                }
+            }
         });
-
-        // Fix: Correctly extract the text response and parse it as JSON.
-        const jsonStr = response.text.trim();
-        const result = JSON.parse(jsonStr);
-
-        if (!Array.isArray(result)) {
-            throw new Error('AI response is not an array.');
-        }
         
-        return result.map((rec: any) => ({
-            id: rec.id || `rec-${Date.now()}-${Math.random()}`,
-            title: rec.title,
-            description: rec.description,
-            category: rec.category,
-            targetAudience: rec.targetAudience,
-            suggestedPrice: rec.suggestedPrice
-        })) as Recommendation[];
-        
-    } catch (error) {
-        console.error("Error calling Gemini API:", error);
-        throw new Error("Failed to generate recommendations from AI service.");
+        // Access text directly and parse.
+        const jsonText = response.text;
+        const result = JSON.parse(jsonText);
+        return result.promotions || [];
+
+    } catch(error) {
+        console.error("Error generating promotion ideas:", error);
+        return [];
     }
-};
-
-// --- Booking Service ---
-
-const BOOKINGS_STORAGE_KEY = 'hach-wiinik-bookings';
-
-const initializeBookings = (): void => {
-    const storedBookings = localStorage.getItem(BOOKINGS_STORAGE_KEY);
-    if (!storedBookings) {
-        localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(mockBookings));
-    }
-};
-
-initializeBookings();
-
-export const getBookings = (): Booking[] => {
-    const bookingsRaw = localStorage.getItem(BOOKINGS_STORAGE_KEY);
-    if (!bookingsRaw) return [];
-    const bookings: Booking[] = JSON.parse(bookingsRaw);
-    return bookings.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-};
-
-export const addBooking = (bookingDetails: Omit<Booking, 'id' | 'clientId' | 'status'>): Booking => {
-    const bookings = getBookings();
-    const newBooking: Booking = {
-        ...bookingDetails,
-        id: `book-${Date.now()}`,
-        clientId: `cli-${Date.now()}`,
-        status: 'pending',
-    };
-    const updatedBookings = [newBooking, ...bookings];
-    localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(updatedBookings));
-    return newBooking;
-};
-
-export const deleteBooking = (bookingId: string): void => {
-    const bookings = getBookings();
-    const updatedBookings = bookings.filter(b => b.id !== bookingId);
-    localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(updatedBookings));
 };

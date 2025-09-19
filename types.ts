@@ -1,10 +1,18 @@
-import React from 'react';
+// Fix: Populating file with all necessary TypeScript type definitions for the application.
+export type Language = 'en' | 'es';
 
-export interface NavItem {
-  id: string;
-  path: string;
-  icon: React.ReactNode;
-  text: string;
+export interface ToastState {
+  id: number;
+  message: string;
+  type: 'success' | 'error';
+}
+
+export interface LanguageContextType {
+  language: Language;
+  setLanguage: (language: Language) => void;
+  t: (key: string, options?: Record<string, string | number>) => string;
+  toast: ToastState | null;
+  showToast: (message: string, type?: 'success' | 'error') => void;
 }
 
 export interface Client {
@@ -12,44 +20,76 @@ export interface Client {
   name: string;
   email: string;
   phone: string;
-  joinDate: string;
-  totalBookings: number;
-  tags: string[];
-  avatar: string;
+  lastVisit: string;
+  preferences: string[];
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  description: string;
+  duration: number; // in minutes
+  price: number;
 }
 
 export interface Booking {
   id: string;
-  clientName: string;
   clientId: string;
-  tourPackage: string;
-  date: string;
-  status: 'confirmed' | 'pending' | 'cancelled';
-  participants: number;
-  totalPrice: number;
+  clientName: string;
+  serviceId: string;
+  serviceName: string;
+  startTime: Date;
+  endTime: Date;
+  status: 'confirmed' | 'pending' | 'cancelled' | 'completed';
+}
+
+export interface Promotion {
+  id: string;
+  title: string;
+  description: string;
+  discount: string;
+  validUntil: string;
 }
 
 export interface Recommendation {
     id: string;
     title: string;
     description: string;
-    category: 'Eco-tourism' | 'Adventure' | 'Cultural' | 'Gastronomy';
-    targetAudience: string;
-    suggestedPrice: number; // in USD
-    image?: string;
+    category: 'Client' | 'Service' | 'Marketing';
 }
 
-export interface QuickImpactImprovement {
-  experience: string;
-  correctedPrice: string;
-  keyImages: string;
-  visualImprovement: string;
+export interface Notification {
+    id: string;
+    message: string;
+    type: 'info' | 'warning' | 'alert';
+    timestamp: string;
 }
 
 export interface AnalyticsData {
-    bookingsOverTime: { month: string; bookings: number }[];
-    revenueByPackage: { package: string; revenue: number }[];
-    clientGrowth: { month: string; newClients: number }[];
-    popularPackages: { name: string; bookings: number }[];
-    quickImpactImprovements: QuickImpactImprovement[];
+    totalRevenue: number;
+    totalBookings: number;
+    newClients: number;
+    topServices: { name: string; bookings: number }[];
+}
+
+export type Theme = 'light' | 'dark';
+
+export interface ThemeContextType {
+    theme: Theme;
+    toggleTheme: () => void;
+}
+
+export type UserRole = 'super-admin' | 'admin';
+
+export interface User {
+    name: string;
+    email: string;
+    avatarUrl: string;
+    role: UserRole;
+}
+
+export interface AuthContextType {
+    isAuthenticated: boolean;
+    user: User | null;
+    setCurrentRole: (role: UserRole) => void;
 }

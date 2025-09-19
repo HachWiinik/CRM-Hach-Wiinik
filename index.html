@@ -1,51 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hach Wíinik CRM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Palanquin+Dark:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Poppins', 'sans-serif'],
-              heading: ['Palanquin Dark', 'sans-serif'],
-            },
-            colors: {
-              'maya-forest-green': '#0E402D',
-              'maya-caribbean-turquoise': '#36C9C6',
-              'maya-warm-sand': '#D9BA8C',
-              'maya-soft-terracotta': '#C2754F',
-              'maya-sun-yellow': '#FFD87C',
-              'maya-light-smoke': '#F2F2F2',
-            }
-          }
-        }
+    <link rel="stylesheet" href="./index.css" />
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+        "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.1",
+        "react/": "https://aistudiocdn.com/react@^19.1.1/",
+        "react": "https://aistudiocdn.com/react@^19.1.1",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.544.0"
       }
+    }
     </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "react": "https://aistudiocdn.com/react@^19.1.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.1",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.544.0",
-    "recharts": "https://aistudiocdn.com/recharts@^3.2.1",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0"
-  }
-}
-</script>
-</head>
-  <body>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900">
     <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>

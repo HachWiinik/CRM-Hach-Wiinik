@@ -1,67 +1,49 @@
+// Fix: Populating file with the main App component structure, including layout and routing.
+import React, { useState } from 'react';
+import * as ReactRouterDOM from 'react-router-dom';
 
-import React, { useState, useCallback } from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Calendar, Users, Lightbulb, BarChart, Bell } from 'lucide-react';
 import Header from './components/layout/Header';
 import Sidebar from './components/layout/Sidebar';
 import Bookings from './components/views/Bookings';
 import Clients from './components/views/Clients';
+import Catalog from './components/views/Catalog';
+import Promotions from './components/views/Promotions';
 import Recommendations from './components/views/Recommendations';
 import Analytics from './components/views/Analytics';
 import Notifications from './components/views/Notifications';
-import MascotHelper from './components/common/MascotHelper';
+import Toast from './components/common/Toast';
+import { useTranslation } from './contexts/LanguageContext';
+import { useAuth } from './contexts/AuthContext';
 
-export const navItems = [
-  { id: 'bookings', path: '/bookings', icon: <Calendar size={24} />, text: 'Bookings' },
-  { id: 'clients', path: '/clients', icon: <Users size={24} />, text: 'Clients' },
-  { id: 'recommendations', path: '/recommendations', icon: <Lightbulb size={24} />, text: 'Recommendations' },
-  { id: 'analytics', path: '/analytics', icon: <BarChart size={24} />, text: 'Analytics' },
-  { id: 'notifications', path: '/notifications', icon: <Bell size={24} />, text: 'Notifications' },
-];
-
-const AppContent = () => {
-  const [isSidebarExpanded, setSidebarExpanded] = useState(true);
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const currentPath = location.pathname;
-
-  const handleTabChange = useCallback((path: string) => {
-    navigate(path);
-  }, [navigate]);
+const App: React.FC = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const { toast } = useTranslation();
+  const { user } = useAuth();
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-maya-light-smoke text-maya-forest-green font-sans">
-      <Header />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar 
-          isExpanded={isSidebarExpanded} 
-          onToggle={() => setSidebarExpanded(prev => !prev)}
-          navItems={navItems}
-          activePath={currentPath}
-          onTabChange={handleTabChange}
-        />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-          <Routes>
-            <Route path="/" element={<Navigate to="/bookings" replace />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/clients" element={<Clients />} />
-            <Route path="/recommendations" element={<Recommendations />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/notifications" element={<Notifications />} />
-          </Routes>
-        </main>
+    <ReactRouterDOM.BrowserRouter>
+      <div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+        <Sidebar isOpen={isSidebarOpen} />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Header onToggleSidebar={() => setSidebarOpen(!isSidebarOpen)} />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 p-6">
+            <ReactRouterDOM.Routes>
+              <ReactRouterDOM.Route path="/" element={<ReactRouterDOM.Navigate to="/bookings" replace />} />
+              <ReactRouterDOM.Route path="/bookings" element={<Bookings />} />
+              <ReactRouterDOM.Route path="/clients" element={<Clients />} />
+              <ReactRouterDOM.Route path="/catalog" element={<Catalog />} />
+              <ReactRouterDOM.Route path="/promotions" element={<Promotions />} />
+              <ReactRouterDOM.Route path="/recommendations" element={<Recommendations />} />
+              
+              {/* Protected Routes */}
+              <ReactRouterDOM.Route path="/analytics" element={user?.role === 'super-admin' ? <Analytics /> : <ReactRouterDOM.Navigate to="/bookings" replace />} />
+              <ReactRouterDOM.Route path="/notifications" element={user?.role === 'super-admin' ? <Notifications /> : <ReactRouterDOM.Navigate to="/bookings" replace />} />
+            </ReactRouterDOM.Routes>
+          </main>
+        </div>
+        {toast && <Toast message={toast.message} type={toast.type} key={toast.id} />}
       </div>
-      <MascotHelper />
-    </div>
-  );
-};
-
-const App = () => {
-  return (
-    <HashRouter>
-      <AppContent />
-    </HashRouter>
+    </ReactRouterDOM.BrowserRouter>
   );
 };
 

@@ -1,47 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { WifiOff, User } from 'lucide-react';
+// Fix: Populating file with a functional Header component.
+import React from 'react';
+import { Sun, Moon, Menu } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from '../../contexts/LanguageContext';
+import { UserRole } from '../../types';
 
-const Header = () => {
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+interface HeaderProps {
+  onToggleSidebar: () => void;
+}
 
-  useEffect(() => {
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
+const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
+  const { theme, toggleTheme } = useTheme();
+  const { user, setCurrentRole } = useAuth();
+  const { language, setLanguage, t } = useTranslation();
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
+  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentRole(e.target.value as UserRole);
+  };
 
   return (
-    <header className="bg-gradient-to-r from-maya-forest-green to-maya-caribbean-turquoise text-white shadow-md p-4 flex items-center justify-between flex-shrink-0 z-20">
+    <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md flex-shrink-0">
       <div className="flex items-center">
-        <img src="https://res.cloudinary.com/dy08afhuz/image/upload/v1758236390/grok-image-61ceeb3a-8e89-4bec-8609-5658d8038280_nhcxbv.jpg" alt="Hach Wíinik Official Logo" className="h-10 w-10" />
-        <img src="https://res.cloudinary.com/dy08afhuz/image/upload/v1758235489/1000607110_bbnbwv.png" alt="Aiiyin Mascot" className="h-10 w-10 ml-2 rounded-full" />
-        <h1 className="ml-4 text-2xl font-heading font-bold">Hach Wíinik CRM</h1>
+        <button onClick={onToggleSidebar} className="text-gray-500 dark:text-gray-400 focus:outline-none lg:hidden">
+          <Menu className="h-6 w-6" />
+        </button>
+        <h1 className="text-xl font-semibold ml-4">{t('header.title')}</h1>
       </div>
+
       <div className="flex items-center space-x-4">
-        {isOffline && (
-          <div className="hidden md:flex items-center bg-maya-light-smoke text-maya-forest-green px-3 py-1 rounded-full text-sm font-medium border border-maya-forest-green">
-            <WifiOff size={16} className="mr-2" />
-            Offline Mode
-          </div>
-        )}
-        <div className="language-selector">
-          <select className="bg-transparent border border-white rounded-md px-2 py-1 text-white focus:outline-none focus:ring-2 focus:ring-white">
-            <option value="en" className="text-black">English</option>
-            <option value="es" className="text-black">Español</option>
+        {/* Language Switcher */}
+        <div className="relative">
+          <select 
+            value={language} 
+            onChange={(e) => setLanguage(e.target.value as 'en' | 'es')}
+            className="bg-gray-200 dark:bg-gray-700 rounded-md px-3 py-1.5 appearance-none focus:outline-none cursor-pointer"
+            aria-label={t('header.language')}
+          >
+            <option value="en">EN</option>
+            <option value="es">ES</option>
           </select>
         </div>
-        <div className="user-profile flex items-center">
-          <span className="mr-3 hidden md:inline">John Doe</span>
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-maya-forest-green">
-            <User size={24} />
+        
+        {/* Theme Toggler */}
+        <button onClick={toggleTheme} className="focus:outline-none" aria-label={t('header.toggleTheme')}>
+          {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
+        </button>
+
+        {/* Role Switcher */}
+        {user && (
+          <div className="relative">
+            <select 
+              value={user.role} 
+              onChange={handleRoleChange}
+              className="bg-gray-200 dark:bg-gray-700 rounded-md px-3 py-1.5 appearance-none focus:outline-none cursor-pointer"
+              aria-label={t('header.role')}
+            >
+              <option value="super-admin">{t('roles.superAdmin')}</option>
+              <option value="admin">{t('roles.admin')}</option>
+            </select>
           </div>
+        )}
+
+        {/* User Menu */}
+        <div className="flex items-center">
+            <img className="h-8 w-8 rounded-full object-cover" src={user?.avatarUrl} alt="User avatar" />
+            <span className="ml-2 hidden md:block">{user?.name}</span>
         </div>
       </div>
     </header>
