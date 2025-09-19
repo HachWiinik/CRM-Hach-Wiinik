@@ -12,6 +12,7 @@
     "catalog": "Catalog",
     "promotions": "Promotions",
     "recommendations": "AI Recommendations",
+    "chat": "AI Assistant",
     "analytics": "Analytics",
     "notifications": "Notifications"
   },
@@ -44,7 +45,7 @@
     "active": "Active Promotions",
     "validUntil": "Valid until {date}",
     "generateNew": "Generate New Ideas",
-    "generateDescription": "Let AI generate some creative promotion ideas for the next season!",
+    "generateDescription": "Let AI generate some creative promotion ideas for your eco-tour agency for the next season!",
     "generateButton": "Generate Ideas",
     "newIdeas": "Here are some ideas:"
   },
@@ -63,10 +64,20 @@
     "title": "Notifications",
     "recent": "Recent Activity"
   },
+  "chat": {
+    "title": "AI Assistant Chat",
+    "welcome": "Hello! I'm your Hach Wíinik assistant. How can I help you manage your CRM today? You can ask me about client data, booking trends, or marketing ideas.",
+    "inputPlaceholder": "Type your message here...",
+    "sendMessage": "Send",
+    "typing": "Assistant is typing..."
+  },
   "mascot": {
-    "promotions": "Stuck on ideas? Let our AI assistant generate fresh and exciting promotional campaigns for you!"
+    "promotions": "Stuck on ideas? Let our AI assistant generate fresh and exciting promotional campaigns for your eco-tours!"
   },
   "common": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   }
 }

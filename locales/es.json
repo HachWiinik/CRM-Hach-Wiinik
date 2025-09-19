@@ -12,6 +12,7 @@
     "catalog": "Catálogo",
     "promotions": "Promociones",
     "recommendations": "Recomendaciones IA",
+    "chat": "Asistente IA",
     "analytics": "Analíticas",
     "notifications": "Notificaciones"
   },
@@ -44,7 +45,7 @@
     "active": "Promociones Activas",
     "validUntil": "Válido hasta el {date}",
     "generateNew": "Generar Nuevas Ideas",
-    "generateDescription": "¡Deja que la IA genere ideas de promociones creativas para la próxima temporada!",
+    "generateDescription": "¡Deja que la IA genere ideas de promociones creativas para tu agencia de eco-tours para la próxima temporada!",
     "generateButton": "Generar Ideas",
     "newIdeas": "Aquí tienes algunas ideas:"
   },
@@ -63,10 +64,20 @@
     "title": "Notificaciones",
     "recent": "Actividad Reciente"
   },
+  "chat": {
+    "title": "Chat con Asistente IA",
+    "welcome": "¡Hola! Soy tu asistente de Hach Wíinik. ¿Cómo puedo ayudarte a gestionar tu CRM hoy? Puedes preguntarme sobre datos de clientes, tendencias de reservas o ideas de marketing.",
+    "inputPlaceholder": "Escribe tu mensaje aquí...",
+    "sendMessage": "Enviar",
+    "typing": "El asistente está escribiendo..."
+  },
   "mascot": {
-    "promotions": "¿Sin ideas? ¡Deja que nuestro asistente de IA genere campañas promocionales frescas y emocionantes para ti!"
+    "promotions": "¿Sin ideas? ¡Deja que nuestro asistente de IA genere campañas promocionales frescas y emocionantes para tus eco-tours!"
   },
   "common": {
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "processing": "Procesando...",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   }
 }

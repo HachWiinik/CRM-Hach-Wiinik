@@ -1,47 +1,44 @@
-// Fix: Populating file with mock data for the application.
-import { Client, Service, Booking, Promotion, Notification, AnalyticsData, Recommendation } from '../types';
-
-export const mockClients: Client[] = [
-  { id: '1', name: 'Elena Rodriguez', email: 'elena@example.com', phone: '555-0101', lastVisit: '2023-10-15', preferences: ['Manicure', 'Bright Colors'] },
-  { id: '2', name: 'Liam Chen', email: 'liam@example.com', phone: '555-0102', lastVisit: '2023-10-20', preferences: ['Pedicure', 'Massage'] },
-  { id: '3', name: 'Aisha Khan', email: 'aisha@example.com', phone: '555-0103', lastVisit: '2023-09-05', preferences: ['Facial', 'Organic Products'] },
+export const mockClients = [
+  { id: '1', name: 'Sophia Miller', email: 'sophia@example.com', phone: '555-0101', lastVisit: '2023-10-15', preferences: ['Snorkeling', 'Cenotes', 'Nature'] },
+  { id: '2', name: 'Jackson Moore', email: 'jackson@example.com', phone: '555-0102', lastVisit: '2023-10-20', preferences: ['Adventure', 'Marine Life', 'Photography'] },
+  { id: '3', name: 'Isabella Garcia', email: 'isabella@example.com', phone: '555-0103', lastVisit: '2023-09-05', preferences: ['History', 'Culture', 'Archaeology'] },
 ];
 
-export const mockServices: Service[] = [
-  { id: 's1', name: 'Classic Manicure', description: 'Shape, buff, and polish.', duration: 45, price: 25 },
-  { id: 's2', name: 'Gel Pedicure', description: 'Long-lasting gel polish pedicure.', duration: 60, price: 45 },
-  { id: 's3', name: 'Relaxing Facial', description: 'Deep cleansing and relaxing facial.', duration: 75, price: 80 },
-  { id: 's4', name: 'Swedish Massage', description: 'Full body massage for relaxation.', duration: 60, price: 70 },
+export const mockServices = [
+  { id: 's1', name: 'Cavernas Subacuáticas y Nado con Tortugas', description: 'Explore ancient underground river systems and swim with sea turtles in their natural habitat.', duration: 300, price: 2200, imageUrl: 'https://res.cloudinary.com/dy08afhuz/image/upload/v1758235474/1000607861_wywnnw.png' },
+  { id: 's2', name: 'Nado con el Tiburón Ballena', description: 'An awe-inspiring encounter with the gentle giants of the ocean. A seasonal, once-in-a-lifetime experience.', duration: 360, price: 3950, imageUrl: 'https://res.cloudinary.com/dy08afhuz/image/upload/v1758235396/1000592474_j9tty1.jpg' },
+  { id: 's3', name: 'Expedición a Ruinas Mayas', description: 'A guided tour through a historic Mayan city, uncovering the secrets of an ancient civilization.', duration: 480, price: 2800, imageUrl: 'https://res.cloudinary.com/dy08afhuz/image/upload/v1758235400/1000588882_hr4ekr.jpg' },
+  { id: 's4', name: 'Aventura en la Selva y Tirolesas', description: 'Experience the thrill of zip-lining over the jungle canopy and explore hidden trails.', duration: 240, price: 1900, imageUrl: 'https://res.cloudinary.com/dy08afhuz/image/upload/v1758235392/1000543745_gxtqwd.jpg' },
 ];
 
-export const mockBookings: Booking[] = [
-  { id: 'b1', clientId: '1', clientName: 'Elena Rodriguez', serviceId: 's1', serviceName: 'Classic Manicure', startTime: new Date(new Date().setDate(new Date().getDate() + 1)), endTime: new Date(new Date().setDate(new Date().getDate() + 1)), status: 'confirmed' },
-  { id: 'b2', clientId: '2', clientName: 'Liam Chen', serviceId: 's4', serviceName: 'Swedish Massage', startTime: new Date(new Date().setDate(new Date().getDate() + 2)), endTime: new Date(new Date().setDate(new Date().getDate() + 2)), status: 'pending' },
-  { id: 'b3', clientId: '3', clientName: 'Aisha Khan', serviceId: 's3', serviceName: 'Relaxing Facial', startTime: new Date(new Date().setDate(new Date().getDate() + 3)), endTime: new Date(new Date().setDate(new Date().getDate() + 3)), status: 'completed' },
+export const mockBookings = [
+  { id: 'b1', clientId: '1', clientName: 'Sophia Miller', serviceId: 's1', serviceName: 'Cavernas Subacuáticas', startTime: new Date(new Date().setDate(new Date().getDate() + 5)), endTime: new Date(new Date().setDate(new Date().getDate() + 5)), status: 'confirmed' },
+  { id: 'b2', clientId: '2', clientName: 'Jackson Moore', serviceId: 's2', serviceName: 'Nado con el Tiburón Ballena', startTime: new Date(new Date().setDate(new Date().getDate() + 10)), endTime: new Date(new Date().setDate(new Date().getDate() + 10)), status: 'pending' },
+  { id: 'b3', clientId: '3', clientName: 'Isabella Garcia', serviceId: 's3', serviceName: 'Expedición a Ruinas Mayas', startTime: new Date(new Date().setDate(new Date().getDate() + 12)), endTime: new Date(new Date().setDate(new Date().getDate() + 12)), status: 'completed' },
 ];
 
-export const mockPromotions: Promotion[] = [
-    { id: 'p1', title: 'Autumn Special', description: '20% off all facials.', discount: '20%', validUntil: '2023-11-30' },
-    { id: 'p2', title: 'Refer a Friend', description: 'Get $10 off when you refer a friend.', discount: '$10', validUntil: '2023-12-31' },
+export const mockPromotions = [
+    { id: 'p1', title: 'Aventura de Verano', description: '15% off on all jungle and cenote tours.', discount: '15%', validUntil: '2024-08-31' },
+    { id: 'p2', title: 'Reserva en Grupo', description: 'Book for 4 or more people and get a 20% discount.', discount: '20%', validUntil: '2024-12-31' },
 ];
 
-export const mockRecommendations: Recommendation[] = [
-    {id: 'r1', title: 'Upsell to Aisha Khan', description: 'Aisha loves organic products. Recommend our new organic serum during her next facial.', category: 'Client'},
-    {id: 'r2', title: 'Weekend Promotion Idea', description: 'Create a "Weekend Relaxation" package combining a massage and a pedicure at a discounted rate.', category: 'Marketing'},
+export const mockRecommendations = [
+    {id: 'r1', title: 'Upsell para Jackson Moore', description: 'Jackson loves marine life. Offer him a private photography session add-on for his Whale Shark tour.', category: 'Client'},
+    {id: 'r2', title: 'Paquete Cultural', description: 'Create a "Mayan Explorer" package combining the ruins expedition with a local cuisine experience.', category: 'Marketing'},
 ];
 
-export const mockNotifications: Notification[] = [
-    { id: 'n1', message: 'New booking from Elena Rodriguez.', type: 'info', timestamp: '2 hours ago' },
-    { id: 'n2', message: 'Low stock on organic facial cream.', type: 'warning', timestamp: '1 day ago' },
+export const mockNotifications = [
+    { id: 'n1', message: 'Nueva reserva de Sophia Miller para Cavernas.', type: 'info', timestamp: '3 horas atrás' },
+    { id: 'n2', message: 'La temporada de Tiburón Ballena termina en 2 semanas.', type: 'warning', timestamp: '1 día atrás' },
 ];
 
-export const mockAnalyticsData: AnalyticsData = {
-    totalRevenue: 12540,
-    totalBookings: 180,
-    newClients: 25,
+export const mockAnalyticsData = {
+    totalRevenue: 375800,
+    totalBookings: 150,
+    newClients: 22,
     topServices: [
-        { name: 'Gel Pedicure', bookings: 60 },
-        { name: 'Swedish Massage', bookings: 45 },
-        { name: 'Classic Manicure', bookings: 35 },
+        { name: 'Nado con el Tiburón Ballena', bookings: 55 },
+        { name: 'Cavernas Subacuáticas', bookings: 40 },
+        { name: 'Expedición a Ruinas Mayas', bookings: 30 },
     ],
 };

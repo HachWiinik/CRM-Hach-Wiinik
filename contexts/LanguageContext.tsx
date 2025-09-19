@@ -1,25 +1,43 @@
-// Fix: No changes to this file's content were needed. The error was resolved by creating the 'types.ts' file it imports from.
-import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import type { Language, LanguageContextType, ToastState } from '../types';
-
-import en from '../locales/en.json';
-import es from '../locales/es.json';
-
-const translations = { en, es };
+import React, { createContext, useState, useContext, useCallback, ReactNode, useEffect } from 'react';
+import type { Language, LanguageContextType, Toast } from '../types';
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>('es');
-  const [toast, setToast] = useState<ToastState | null>(null);
+  const [toast, setToast] = useState<Toast | null>(null);
+  const [translations, setTranslations] = useState<Record<string, any> | null>(null);
 
   useEffect(() => {
-    // Could add logic here to detect browser language or load from localStorage
+    const fetchTranslations = async () => {
+      try {
+        const [enResponse, esResponse] = await Promise.all([
+          fetch('/locales/en.json'),
+          fetch('/locales/es.json')
+        ]);
+        if (!enResponse.ok || !esResponse.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const enData = await enResponse.json();
+        const esData = await esResponse.json();
+        setTranslations({ en: enData, es: esData });
+      } catch (error) {
+        console.error("Failed to fetch translation files:", error);
+        setTranslations({ en: {}, es: {} }); // Fallback to prevent app crash
+      }
+    };
+
+    fetchTranslations();
   }, []);
 
-  const t = useCallback((key: string, options?: Record<string, string | number>): string => {
+  const t = useCallback((key: string, options?: Record<string, string | number>) => {
+    if (!translations) {
+        return key; // Translations are not loaded yet
+    }
+      
+    const langKey = language as keyof typeof translations;
     const keyParts = key.split('.');
-    let translation: any = translations[language];
+    let translation = translations[langKey];
     
     for (const part of keyParts) {
       if (translation && typeof translation === 'object' && part in translation) {
@@ -38,22 +56,28 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     return result;
-  }, [language]);
+  }, [language, translations]);
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
       const id = Date.now();
       setToast({ message, type, id });
+      setTimeout(() => setToast(null), 5100); // Clear toast after animation
   };
 
+  const value = { language, setLanguage, t, toast, showToast };
+
+  if (!translations) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, toast, showToast }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-export const useTranslation = (): LanguageContextType => {
+export const useTranslation = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
     throw new Error('useTranslation must be used within a LanguageProvider');

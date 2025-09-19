@@ -1,9 +1,9 @@
-// Fix: Populating file with a reusable ConfirmationModal component.
 import React from 'react';
 import Modal from './Modal';
 import Button from './Button';
+import { useTranslation } from '../../contexts/LanguageContext';
 
-interface ConfirmationModalProps {
+type ConfirmationModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -12,7 +12,7 @@ interface ConfirmationModalProps {
   confirmText?: string;
   cancelText?: string;
   isLoading?: boolean;
-}
+};
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
@@ -20,21 +20,24 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   title,
   message,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText,
+  cancelText,
   isLoading = false
 }) => {
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <p className="mb-6">{message}</p>
-      <div className="flex justify-end space-x-4">
-        <Button variant="secondary" onClick={onClose} disabled={isLoading}>
-          {cancelText}
-        </Button>
-        <Button onClick={onConfirm} isLoading={isLoading}>
-          {confirmText}
-        </Button>
-      </div>
+      <>
+        <p className='mb-6'>{message}</p>
+        <div className='flex justify-end space-x-4'>
+          <Button variant='secondary' onClick={onClose} disabled={isLoading}>
+            {cancelText ?? t('common.cancel')}
+          </Button>
+          <Button onClick={onConfirm} isLoading={isLoading}>
+            {confirmText ?? t('common.confirm')}
+          </Button>
+        </div>
+      </>
     </Modal>
   );
 };

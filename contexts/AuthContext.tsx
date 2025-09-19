@@ -1,27 +1,37 @@
-// Fix: Populating file with an AuthContext provider.
-import React, { createContext, useState, useContext, useMemo } from 'react';
-import { AuthContextType, User, UserRole } from '../types';
+import React, { createContext, useState, useContext, useMemo, ReactNode } from 'react';
+
+type User = {
+    name: string;
+    email: string;
+    avatarUrl: string;
+    role: string;
+}
+
+type AuthContextType = {
+    isAuthenticated: boolean;
+    user: User | null;
+    setCurrentRole: (role: string) => void;
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true); // Default to logged in for demo
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [isAuthenticated] = useState(true); // Default to logged in for demo
   const [user, setUser] = useState<User | null>({
-    name: 'Hach Wíinik',
-    email: 'super@hachwiinik.com',
-    avatarUrl: 'https://res.cloudinary.com/dy08afhuz/image/upload/v1758235391/favicon_v2_x1sfk0.png',
+    name: 'NeuroFlow User',
+    email: 'user@neuroflow.ai',
+    avatarUrl: 'https://res.cloudinary.com/dy08afhuz/image/upload/v1758236390/grok-image-61ceeb3a-8e89-4bec-8609-5658d8038280_nhcxbv.jpg',
     role: 'super-admin'
   });
 
-  const setCurrentRole = (role: UserRole) => {
-    setUser(prevUser => (prevUser ? { ...prevUser, role } : null));
+  const setCurrentRole = (role: string) => {
+    setUser(currentUser => {
+      if (!currentUser) return null;
+      return { ...currentUser, role };
+    });
   };
   
-  const value = useMemo(() => ({ 
-      isAuthenticated, 
-      user, 
-      setCurrentRole 
-  }), [isAuthenticated, user]);
+  const value = useMemo(() => ({ isAuthenticated, user, setCurrentRole }), [isAuthenticated, user]);
 
   return (
     <AuthContext.Provider value={value}>
@@ -30,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useAuth = (): AuthContextType => {
+export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');

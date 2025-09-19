@@ -1,11 +1,10 @@
-// Fix: Populating file with a Toast notification component.
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
 
-interface ToastProps {
-  message: string;
-  type: 'success' | 'error';
-}
+type ToastProps = {
+    message: string;
+    type: 'success' | 'error';
+};
 
 const Toast: React.FC<ToastProps> = ({ message, type }) => {
   const [visible, setVisible] = useState(false);
@@ -27,7 +26,7 @@ const Toast: React.FC<ToastProps> = ({ message, type }) => {
 
   return (
     <div className={`${baseClasses} ${variantClasses[type]} ${visibilityClasses}`}>
-      {type === 'success' ? <CheckCircle className="mr-3" /> : <XCircle className="mr-3" />}
+      {type === 'success' ? <CheckCircle className='mr-3' /> : <XCircle className='mr-3' />}
       {message}
     </div>
   );

@@ -1,10 +1,15 @@
-// Fix: Populating file with a ThemeContext provider.
-import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
-import { Theme, ThemeContextType } from '../types';
+import React, { createContext, useState, useContext, useEffect, useMemo, ReactNode } from 'react';
+
+type Theme = 'light' | 'dark';
+
+type ThemeContextType = {
+  theme: Theme;
+  toggleTheme: () => void;
+};
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
@@ -12,7 +17,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const isDark = theme === 'dark';
     root.classList.remove(isDark ? 'light' : 'dark');
     root.classList.add(theme);
-    localStorage.setItem('theme', theme);
+    try {
+        localStorage.setItem('theme', theme);
+    } catch (e) {
+        console.error("Failed to access localStorage:", e);
+    }
   }, [theme]);
 
   const toggleTheme = () => {
@@ -28,7 +37,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 };
 
-export const useTheme = (): ThemeContextType => {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
