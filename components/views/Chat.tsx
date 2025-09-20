@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot } from 'lucide-react';
-import { useTranslation } from '../../contexts/LanguageContext';
-import { continueConversation } from '../../services/geminiService';
-import Button from '../common/Button';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { continueConversation } from '@/services/geminiService';
+import Button from '@/components/common/Button';
 
 type Message = {
     role: 'user' | 'model';

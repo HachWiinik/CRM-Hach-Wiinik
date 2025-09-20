@@ -1,10 +1,17 @@
 import React, { createContext, useState, useContext, useCallback, ReactNode, useEffect } from 'react';
-import type { Language, LanguageContextType, Toast } from '../types';
+import type { Language, LanguageContextType, Toast } from '@/types';
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('es');
+  const [language, setLanguageState] = useState<Language>(() => {
+    try {
+      const storedLang = localStorage.getItem('language');
+      return (storedLang === 'en' || storedLang === 'es') ? storedLang : 'es';
+    } catch {
+      return 'es'; // Default if localStorage is not available
+    }
+  });
   const [toast, setToast] = useState<Toast | null>(null);
   const [translations, setTranslations] = useState<Record<string, any> | null>(null);
 
@@ -29,6 +36,19 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
     fetchTranslations();
   }, []);
+  
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const setLanguage = (lang: Language) => {
+    try {
+      localStorage.setItem('language', lang);
+    } catch (e) {
+      console.error("Failed to access localStorage:", e);
+    }
+    setLanguageState(lang);
+  };
 
   const t = useCallback((key: string, options?: Record<string, string | number>) => {
     if (!translations) {

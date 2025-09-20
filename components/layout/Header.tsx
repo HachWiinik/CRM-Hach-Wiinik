@@ -1,9 +1,9 @@
 import React from 'react';
 import { Sun, Moon, Menu } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useAuth } from '../../contexts/AuthContext';
-import { useTranslation } from '../../contexts/LanguageContext';
-import type { Language } from '../../types';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from '@/contexts/LanguageContext';
+import type { Language, UserRole } from '@/types';
 
 type HeaderProps = {
   onToggleSidebar: () => void;
@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const { language, setLanguage, t } = useTranslation();
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentRole(e.target.value);
+    setCurrentRole(e.target.value as UserRole);
   };
 
   return (
@@ -55,6 +55,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             >
               <option value='super-admin'>{t('roles.superAdmin')}</option>
               <option value='admin'>{t('roles.admin')}</option>
+              <option value='manager'>{t('roles.manager')}</option>
+              <option value='sales-rep'>{t('roles.salesRep')}</option>
             </select>
           </div>
         )}

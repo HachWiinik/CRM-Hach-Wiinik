@@ -1,33 +1,40 @@
 import React from 'react';
-import Panel from '../common/Panel';
-import { mockNotifications } from '../../data/mockData';
-import { useTranslation } from '../../contexts/LanguageContext';
-import { Info, AlertTriangle } from 'lucide-react';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { mockNotifications } from '@/data/mockData';
+import { Bell, AlertTriangle } from 'lucide-react';
+import Panel from '@/components/common/Panel';
+import MascotHelper from '@/components/common/MascotHelper';
 
+const iconMap = {
+    info: <Bell className='text-blue-500' />,
+    warning: <AlertTriangle className='text-yellow-500' />,
+};
+
+// Fix: Added missing Notifications component implementation.
 const Notifications: React.FC = () => {
     const { t } = useTranslation();
-  return (
-    <div className='container mx-auto'>
-      <h1 className='text-3xl font-bold mb-6'>{t('notifications.title')}</h1>
-      <Panel title={t('notifications.recent')}>
-        <ul className='space-y-4'>
-          {mockNotifications.map(notif => (
-            <li
-                key={notif.id}
-                className='p-4 rounded-lg flex items-start'
-                style={{ backgroundColor: notif.type === 'info' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(239, 68, 68, 0.1)' }}
-            >
-              {notif.type === 'info' ? <Info className='h-5 w-5 mr-3 text-blue-500' /> : <AlertTriangle className='h-5 w-5 mr-3 text-red-500' />}
-              <div>
-                <p>{notif.message}</p>
-                <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>{notif.timestamp}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Panel>
-    </div>
-  );
+
+    return (
+        <div>
+            <h1 className='text-3xl font-bold mb-6'>{t('notifications.title')}</h1>
+            <Panel title={t('notifications.recent')}>
+                <ul className='space-y-3'>
+                    {mockNotifications.map(notification => (
+                        <li key={notification.id} className='flex items-start p-4 bg-brand-light-bg dark:bg-brand-dark rounded-lg'>
+                            <div className='mr-4 flex-shrink-0'>
+                                {iconMap[notification.type as keyof typeof iconMap]}
+                            </div>
+                            <div>
+                                <p>{notification.message}</p>
+                                <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>{notification.timestamp}</p>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </Panel>
+            <MascotHelper initialMessage={t('mascot.notifications')} />
+        </div>
+    );
 };
 
 export default Notifications;

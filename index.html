@@ -1,39 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/dy08afhuz/image/upload/v1758236390/grok-image-61ceeb3a-8e89-4bec-8609-5658d8038280_nhcxbv.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeuroFlow CRM</title>
-    <link rel="stylesheet" href="./index.css" />
+    <title>HACH WÍIINIK STORE & CRM</title>
+    <link rel="stylesheet" href="/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Configuración inicial para hash routing -->
-    <script>
-      // Redirigir a bookings si no hay hash
-      if (!window.location.hash) {
-        window.location.hash = '#/bookings';
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://aistudiocdn.com/react@^19.1.1/",
+        "react": "https://aistudiocdn.com/react@^19.1.1",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.3",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.544.0",
+        "vite": "https://aistudiocdn.com/vite@^7.1.6",
+        "url": "https://aistudiocdn.com/url@^0.11.4"
       }
+    }
     </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.1.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
-    "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.1",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.544.0",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
-    "vite": "https://aistudiocdn.com/vite@^7.1.6",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.3",
-    "path": "https://aistudiocdn.com/path@^0.12.7",
-    "url": "https://aistudiocdn.com/url@^0.11.4"
-  }
-}
-</script>
-</head>
-  <body class="bg-gray-100 dark:bg-gray-900">
+  </head>
+  <body>
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

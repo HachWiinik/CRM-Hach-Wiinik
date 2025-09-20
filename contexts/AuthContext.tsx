@@ -1,16 +1,10 @@
 import React, { createContext, useState, useContext, useMemo, ReactNode } from 'react';
-
-type User = {
-    name: string;
-    email: string;
-    avatarUrl: string;
-    role: string;
-}
+import type { User, UserRole } from '@/types';
 
 type AuthContextType = {
     isAuthenticated: boolean;
     user: User | null;
-    setCurrentRole: (role: string) => void;
+    setCurrentRole: (role: UserRole) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,7 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     role: 'super-admin'
   });
 
-  const setCurrentRole = (role: string) => {
+  const setCurrentRole = (role: UserRole) => {
     setUser(currentUser => {
       if (!currentUser) return null;
       return { ...currentUser, role };

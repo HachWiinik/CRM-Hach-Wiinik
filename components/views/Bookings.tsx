@@ -1,47 +1,52 @@
 import React from 'react';
-import Panel from '../common/Panel';
-import { mockBookings } from '../../data/mockData';
-import { useTranslation } from '../../contexts/LanguageContext';
+import { Calendar, User } from 'lucide-react';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { mockBookings } from '@/data/mockData';
+import { formatDate } from '@/utils/date';
+import Panel from '@/components/common/Panel';
+import MascotHelper from '@/components/common/MascotHelper';
 
+const statusClasses = {
+  confirmed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+  completed: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  cancelled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+};
+
+// Fix: Added missing Bookings component implementation.
 const Bookings: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <div className='container mx-auto'>
-      <h1 className='text-3xl font-bold mb-6'>{t('bookings.title')}</h1>
-      <Panel title={t('bookings.upcoming')}>
-        <div className='overflow-x-auto'>
-          <table className='min-w-full'>
-            <thead className='bg-gray-50 dark:bg-gray-700'>
-              <tr>
-                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider'>{t('bookings.table.client')}</th>
-                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider'>{t('bookings.table.service')}</th>
-                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider'>{t('bookings.table.time')}</th>
-                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider'>{t('bookings.table.status')}</th>
-              </tr>
-            </thead>
-            <tbody className='bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700'>
-              {mockBookings.map(booking => (
-                <tr key={booking.id}>
-                  <td className='px-6 py-4 whitespace-nowrap'>{booking.clientName}</td>
-                  <td className='px-6 py-4 whitespace-nowrap'>{booking.serviceName}</td>
-                  <td className='px-6 py-4 whitespace-nowrap'>{booking.startTime.toLocaleString()}</td>
-                  <td className='px-6 py-4 whitespace-nowrap'>
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                        booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
-                      {booking.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    const { t, language } = useTranslation();
+
+    return (
+        <div>
+            <h1 className='text-3xl font-bold mb-6'>{t('bookings.title')}</h1>
+            <Panel title={t('bookings.upcoming')}>
+                <div className='space-y-4'>
+                    {mockBookings.map(booking => (
+                        <div key={booking.id} className='bg-brand-light-bg dark:bg-brand-dark rounded-lg p-4 flex flex-col md:flex-row justify-between items-start md:items-center shadow-sm'>
+                            <div className='mb-3 md:mb-0'>
+                                <h3 className='font-semibold text-lg'>{booking.serviceName}</h3>
+                                <div className='flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1'>
+                                    <User size={14} className='mr-2' />
+                                    <span>{booking.clientName}</span>
+                                </div>
+                                <div className='flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1'>
+                                    <Calendar size={14} className='mr-2' />
+                                    <span>{formatDate(booking.startTime, language)}</span>
+                                </div>
+                            </div>
+                            <div className='flex items-center space-x-4'>
+                                <span className={`px-3 py-1 text-sm font-medium rounded-full ${statusClasses[booking.status as keyof typeof statusClasses]}`}>
+                                    {t(`bookings.status.${booking.status}`)}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </Panel>
+            <MascotHelper initialMessage={t('mascot.bookings')} />
         </div>
-      </Panel>
-    </div>
-  );
+    );
 };
 
 export default Bookings;

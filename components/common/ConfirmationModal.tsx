@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from './Modal';
-import Button from './Button';
-import { useTranslation } from '../../contexts/LanguageContext';
+import Modal from '@/components/common/Modal';
+import Button from '@/components/common/Button';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 type ConfirmationModalProps = {
   isOpen: boolean;

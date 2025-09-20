@@ -1,33 +1,41 @@
-
 {
   "header": {
-    "title": "Panel de CRM",
+    "title": "Tablero",
     "language": "Idioma",
     "toggleTheme": "Cambiar Tema",
     "role": "Rol de Usuario"
   },
   "sidebar": {
+    "title": "HACH WÍIINIK",
+    "analytics": "Analíticas",
     "bookings": "Reservas",
     "clients": "Clientes",
+    "tasks": "Tareas",
     "catalog": "Catálogo",
     "promotions": "Promociones",
-    "recommendations": "Recomendaciones IA",
+    "recommendations": "Recomendaciones",
     "chat": "Asistente IA",
-    "analytics": "Analíticas",
     "notifications": "Notificaciones"
   },
   "roles": {
-    "superAdmin": "Super Administrador",
-    "admin": "Administrador"
+    "superAdmin": "Super Admin",
+    "admin": "Admin",
+    "manager": "Gerente",
+    "salesRep": "Vendedor"
+  },
+  "common": {
+    "processing": "Procesando...",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   },
   "bookings": {
     "title": "Reservas",
     "upcoming": "Próximas Reservas",
-    "table": {
-      "client": "Cliente",
-      "service": "Servicio",
-      "time": "Hora",
-      "status": "Estado"
+    "status": {
+      "confirmed": "Confirmada",
+      "pending": "Pendiente",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
     }
   },
   "clients": {
@@ -36,48 +44,69 @@
     "getRecommendations": "Obtener Recomendaciones",
     "recommendationsFor": "Recomendaciones para"
   },
-  "catalog": {
-    "title": "Catálogo de Servicios",
-    "duration": "{minutes} min"
-  },
-  "promotions": {
-    "title": "Promociones",
-    "active": "Promociones Activas",
-    "validUntil": "Válido hasta el {date}",
-    "generateNew": "Generar Nuevas Ideas",
-    "generateDescription": "¡Deja que la IA genere ideas de promociones creativas para tu agencia de eco-tours para la próxima temporada!",
-    "generateButton": "Generar Ideas",
-    "newIdeas": "Aquí tienes algunas ideas:"
-  },
   "recommendations": {
-    "title": "Recomendaciones por IA",
-    "subtitle": "Aquí hay algunas sugerencias generadas por IA para ayudar a mejorar tu negocio."
+    "title": "Recomendaciones",
+    "actionableInsights": "Ideas Accionables"
   },
   "analytics": {
-    "title": "Analíticas del Negocio",
-    "revenue": "Ingresos Totales",
-    "bookings": "Reservas",
+    "title": "Analíticas",
+    "totalRevenue": "Ingresos Totales",
+    "totalBookings": "Reservas Totales",
     "newClients": "Nuevos Clientes",
-    "topServices": "Servicios más Populares"
+    "topServices": {
+      "title": "Servicios Populares",
+      "bookings": "reservas"
+    }
   },
   "notifications": {
     "title": "Notificaciones",
-    "recent": "Actividad Reciente"
+    "recent": "Notificaciones Recientes"
+  },
+  "catalog": {
+    "title": "Catálogo de Servicios",
+    "hours": "horas"
+  },
+  "promotions": {
+    "title": "Promociones",
+    "generate": {
+      "title": "Generar Nuevas Ideas de Promoción",
+      "description": "Deja que el asistente de IA te ayude a crear nuevas promociones para la próxima temporada.",
+      "button": "Generar Ideas",
+      "resultsTitle": "Ideas Generadas"
+    },
+    "current": "Promociones Actuales",
+    "validUntil": "Válido hasta"
   },
   "chat": {
-    "title": "Chat con Asistente IA",
-    "welcome": "¡Hola! Soy tu asistente de Hach Wíinik. ¿Cómo puedo ayudarte a gestionar tu CRM hoy? Puedes preguntarme sobre datos de clientes, tendencias de reservas o ideas de marketing.",
-    "inputPlaceholder": "Escribe tu mensaje aquí...",
-    "sendMessage": "Enviar",
-    "typing": "El asistente está escribiendo..."
+    "title": "Asistente IA",
+    "welcome": "¡Hola! Soy tu asistente de CRM para Hach Wíinik. ¿Cómo puedo ayudarte a gestionar tus eco-tours hoy?",
+    "inputPlaceholder": "Pregúntame sobre clientes, reservas o marketing..."
+  },
+  "tasks": {
+    "title": "Tareas",
+    "addNew": "Añadir Nueva Tarea",
+    "status": {
+      "todo": "Por Hacer",
+      "inprogress": "En Progreso",
+      "completed": "Completada"
+    },
+    "modal": {
+      "title": "Crear Nueva Tarea",
+      "taskTitle": "Título de la Tarea",
+      "description": "Descripción",
+      "assignee": "Asignado a",
+      "dueDate": "Fecha de Vencimiento",
+      "addTask": "Añadir Tarea"
+    }
   },
   "mascot": {
-    "promotions": "¿Sin ideas? ¡Deja que nuestro asistente de IA genere campañas promocionales frescas y emocionantes para tus eco-tours!"
-  },
-  "common": {
-    "loading": "Cargando...",
-    "processing": "Procesando...",
-    "confirm": "Confirmar",
-    "cancel": "Cancelar"
+    "analytics": "¡Bienvenido a Analíticas! Aquí puedes ver las métricas clave sobre el rendimiento de tu negocio de un vistazo.",
+    "bookings": "Gestiona todas las reservas de tus clientes aquí. Puedes ver las citas próximas, pendientes y completadas.",
+    "clients": "Aquí está tu lista de clientes. ¡Haz clic en 'Obtener Recomendaciones' para usar la IA y encontrar los mejores tours para ellos!",
+    "tasks": "Organiza el trabajo de tu equipo con este tablero de tareas. Arrastra y suelta las tareas para actualizar su estado.",
+    "catalog": "Explora tu catálogo de eco-tours y experiencias culturales. Todos tus servicios disponibles están aquí.",
+    "promotions": "¡Revisa tus promociones actuales o usa el asistente de IA para idear nuevas y emocionantes ofertas!",
+    "recommendations": "Aquí tienes recomendaciones impulsadas por IA para ayudarte a mejorar tu negocio y la interacción con los clientes.",
+    "notifications": "Mantente al día con las últimas alertas y notificaciones sobre la actividad de tu CRM."
   }
 }

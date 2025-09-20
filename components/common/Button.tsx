@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../../contexts/LanguageContext';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

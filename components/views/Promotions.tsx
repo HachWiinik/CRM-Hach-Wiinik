@@ -1,69 +1,74 @@
 import React, { useState } from 'react';
-import Panel from '../common/Panel';
-import Button from '../common/Button';
-import { mockPromotions } from '../../data/mockData';
-import { useTranslation } from '../../contexts/LanguageContext';
-import { generatePromotionIdeas } from '../../services/geminiService';
-import MascotHelper from '../common/MascotHelper';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { mockPromotions } from '@/data/mockData';
+import { generatePromotionIdeas } from '@/services/geminiService';
+import Panel from '@/components/common/Panel';
+import Button from '@/components/common/Button';
+import MascotHelper from '@/components/common/MascotHelper';
+import { Tag, Calendar } from 'lucide-react';
+import { formatDate } from '@/utils/date';
 
-type Idea = {
-  title: string;
-  description: string;
+type Promotion = {
+    title: string;
+    description: string;
 }
 
+// Fix: Added missing Promotions component implementation.
 const Promotions: React.FC = () => {
-  const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
-  const [newIdeas, setNewIdeas] = useState<Idea[]>([]);
+    const { t, language } = useTranslation();
+    const [newPromotions, setNewPromotions] = useState<Promotion[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleGenerateIdeas = async () => {
-    setIsLoading(true);
-    setNewIdeas([]);
-    const ideas = await generatePromotionIdeas('upcoming');
-    setNewIdeas(ideas);
-    setIsLoading(false);
-  };
+    const handleGeneratePromotions = async () => {
+        setIsLoading(true);
+        const ideas = await generatePromotionIdeas('summer');
+        setNewPromotions(ideas);
+        setIsLoading(false);
+    };
 
-  return (
-    <div className='container mx-auto'>
-      <h1 className='text-3xl font-bold mb-6'>{t('promotions.title')}</h1>
-      
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        <Panel title={t('promotions.active')}>
-          {mockPromotions.map(promo => (
-            <div key={promo.id} className='mb-4 p-4 border rounded-lg dark:border-gray-700'>
-              <h3 className='font-bold'>{promo.title} - <span className='text-green-500'>{promo.discount}</span></h3>
-              <p className='text-sm'>{promo.description}</p>
-              <p className='text-xs text-gray-500'>{t('promotions.validUntil', { date: promo.validUntil })}</p>
-            </div>
-          ))}
-        </Panel>
+    return (
+        <div>
+            <h1 className='text-3xl font-bold mb-6'>{t('promotions.title')}</h1>
+            
+            <Panel title={t('promotions.generate.title')} className='mb-6'>
+                <p className='mb-4'>{t('promotions.generate.description')}</p>
+                <Button onClick={handleGeneratePromotions} isLoading={isLoading}>
+                    {t('promotions.generate.button')}
+                </Button>
 
-        <Panel title={t('promotions.generateNew')}>
-          <>
-            <p className='mb-4'>{t('promotions.generateDescription')}</p>
-            <Button onClick={handleGenerateIdeas} isLoading={isLoading}>
-              {t('promotions.generateButton')}
-            </Button>
+                {newPromotions.length > 0 && (
+                    <div className='mt-6 space-y-3'>
+                        <h3 className='text-lg font-semibold'>{t('promotions.generate.resultsTitle')}</h3>
+                        {newPromotions.map((promo, index) => (
+                            <div key={index} className='p-3 bg-brand-light-bg dark:bg-brand-dark rounded-md'>
+                                <p className='font-bold'>{promo.title}</p>
+                                <p className='text-sm'>{promo.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </Panel>
 
-            {newIdeas.length > 0 && (
-              <div className='mt-6'>
-                <h3 className='font-semibold mb-2'>{t('promotions.newIdeas')}</h3>
-                <ul className='list-disc pl-5 space-y-2'>
-                  {newIdeas.map((idea, index) => (
-                      <li key={index}>
-                          <strong>{`${idea.title}: `}</strong>{idea.description}
-                      </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </>
-        </Panel>
-      </div>
-      <MascotHelper initialMessage={t('mascot.promotions')} />
-    </div>
-  );
+            <Panel title={t('promotions.current')}>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    {mockPromotions.map(promo => (
+                        <div key={promo.id} className='p-4 bg-brand-light-bg dark:bg-brand-dark rounded-lg shadow-sm'>
+                            <div className='flex items-center mb-2'>
+                                <Tag className='mr-2 text-brand-pink' />
+                                <h3 className='font-semibold text-lg'>{promo.title}</h3>
+                            </div>
+                            <p className='text-gray-600 dark:text-gray-300 mb-3'>{promo.description}</p>
+                            <div className='flex items-center text-sm text-gray-500 dark:text-gray-400'>
+                                <Calendar className='mr-2' />
+                                <span>{t('promotions.validUntil')} {formatDate(promo.validUntil, language)}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </Panel>
+            <MascotHelper initialMessage={t('mascot.promotions')} />
+        </div>
+    );
 };
 
 export default Promotions;

@@ -8,8 +8,11 @@ import {
   Tag,
   Lightbulb,
   MessageSquare,
+  ClipboardList,
 } from 'lucide-react';
-import { useTranslation } from '../../contexts/LanguageContext';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { roleConfig } from '@/config/permissions';
 
 type SidebarProps = {
   currentView: string;
@@ -21,6 +24,7 @@ const navItems = [
   { id: 'analytics', labelKey: 'sidebar.analytics', icon: BarChart2 },
   { id: 'bookings', labelKey: 'sidebar.bookings', icon: Calendar },
   { id: 'clients', labelKey: 'sidebar.clients', icon: Users },
+  { id: 'tasks', labelKey: 'sidebar.tasks', icon: ClipboardList },
   { id: 'catalog', labelKey: 'sidebar.catalog', icon: Briefcase },
   { id: 'promotions', labelKey: 'sidebar.promotions', icon: Tag },
   { id: 'recommendations', labelKey: 'sidebar.recommendations', icon: Lightbulb },
@@ -30,6 +34,10 @@ const navItems = [
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, isOpen }) => {
     const { t } = useTranslation();
+    const { user } = useAuth();
+
+    const visibleNavItems = user ? navItems.filter(item => roleConfig[user.role].permissions.includes(item.id)) : [];
+
   return (
     <aside
       className={`bg-brand-light-card dark:bg-brand-dark-card text-brand-light dark:text-brand-dark w-64 flex-shrink-0 transition-all duration-300 ease-in-out ${
@@ -44,11 +52,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, isOpen }) =>
               loop 
               muted 
             />
-            <span className='text-xl font-bold'>NeuroFlow CRM</span>
+            <span className='text-xl font-bold'>{t('sidebar.title')}</span>
         </div>
       <nav className='p-4'>
         <ul>
-          {navItems.map(item => (
+          {visibleNavItems.map(item => (
             <li key={item.id} className='mb-2'>
               <button
                 onClick={() => onNavigate(item.id)}
